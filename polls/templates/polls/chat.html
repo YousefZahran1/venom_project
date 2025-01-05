@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-sm-2">
+            <h1 class="text-center mb-5">Ask AI</h1>
+            <div class="table-responsive">
+                <form id="chatForm" class="form-group" method="post" action="{% url 'polls:chat_view' %}">
+                    {% csrf_token %}
+                    <label for="userInput">Your Question:</label>
+                    <textarea id="userInput" class="form-control mb-3" rows="4" placeholder="What support is being provided to farmers affected by extreme weather conditions?"></textarea>
+                    <button type="button" id="sendButton" class="btn btn-primary" onclick="sendMessage()">Send</button>
+                </form>
+                <label id="responseLabel" class="mt-3" style="white-space:pre-line"></label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+  function sendMessage() {
+    const text = document.getElementById('userInput').value;
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+    if (!text.trim()) {
+      alert("Please enter a question before sending.");
+      return;
+    }
+
+    // Disable the submit button
+    document.getElementById('sendButton').disabled = true;
+
+    fetch('/polls/chat/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrfToken // Include CSRF token in headers
+      },
+      body: JSON.stringify({ message: text })
+    })
+    .then(response => response.json())
+    .then(data => {
+      // Clear input value and show response
+      document.getElementById('userInput').value = '';
+      document.getElementById('responseLabel').textContent = data.reply || "No response received.";
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      document.getElementById('responseLabel').textContent = "Error: Unable to fetch response.";
+    })
+    .finally(() => {
+      // Enable the submit button
+      document.getElementById('sendButton').disabled = false;
+    });
+  }
+</script>
+
+{% endblock content %}

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block custom_css %}
+<link rel="stylesheet" href="{% static 'css/home_style.css' %}">
+{% endblock custom_css %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col">
+            <div id="home-content" class="text-center">
+                <h1>Parliament Voting System</h1>
+                <h3>Empowering Democracy, One Vote at a Time!</h3>
+                <hr>
+                <p>Cast your vote for the leaders and initiatives that shape your future.</p>
+                <a class="btn btn-primary btn-lg mb-2" href="{% url 'polls:list' %}" role="button">View Ongoing Voting Sessions</a>
+                <a class="btn btn-outline-secondary btn-lg" href="{% url 'polls:dashboard' %}" role="button">View Voting Dashboard</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
