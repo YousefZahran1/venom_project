@@ -31,7 +31,7 @@ git clone https://github.com/YousefZahran1/venom_project.git
 ```
 Navigate to the project directory: 🚀📁✨  
 ```bash
-cd Django-Poll-App
+cd venom_project
 ```
 
 ---
